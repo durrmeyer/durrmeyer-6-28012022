@@ -6,7 +6,7 @@ const userRoutes = require('./routes/User');
 const sauceRoutes = require('./routes/sauce');
 const path = require('path');
 
-require('dotenv').config();
+require('dotenv').config('/.env');
 console.log(process.env);
 
 const uri = process.env.ATLAS_URI;
@@ -35,7 +35,6 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.use('/api/auth', userRoutes);
-
 app.use('/api/sauces', sauceRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
 

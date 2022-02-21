@@ -4,7 +4,8 @@ const fs = require('fs');
 //-------------------------------------création d'une nouvelle pubication------------------------------//
 exports.createSauce = (req, res) => {
 	const sauceObjet = JSON.parse(req.body.sauce);
-
+	console.log(sauceObjet);
+	delete sauceObjet._id;
 	const sauce = new Sauce({
 		...sauceObjet,
 		imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
@@ -18,17 +19,18 @@ exports.createSauce = (req, res) => {
 
 // ----------------------------------modification de la publication----------------------------------//
 exports.modifySauce = (req, res) => {
+	console.log(req);
 	const sauceObjet = req.file
 		? {
 				...JSON.parse(req.body.sauce),
 				imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
 			}
-		: { ...req.body };
+		: { ...req.body }; //fichier n'existe pas
 
 	Sauce.updateOne(
 		{ _id: req.params.id },
 		{
-			...sauceObjet,
+			...sauceObjet, //copie de notre objet
 			_id: req.params.id
 		}
 	)
