@@ -19,11 +19,11 @@ exports.signup = (req, res) => {
 		.catch((error) => res.status(500).json({ error }));
 };
 
-exports.login = (req, res, next) => {
+exports.login = (req, res) => {
 	User.findOne({ email: req.body.email })
 		.then((user) => {
 			if (!user) {
-				return res.status(401).json({ error: 'ucun compte ne correspond à votre adresss mail !' });
+				return res.status(401).json({ error: 'aucun compte ne correspond à votre adress mail !' });
 			}
 			bcrypt
 				.compare(req.body.password, user.password)
