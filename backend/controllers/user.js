@@ -23,7 +23,7 @@ exports.login = (req, res) => {
 	User.findOne({ email: req.body.email })
 		.then((user) => {
 			if (!user) {
-				return res.status(401).json({ error: 'aucun compte ne correspond à votre adress mail !' });
+				return res.status(401).json({ error: 'aucun compte ne correspond à votre adresse mail !' });
 			}
 			bcrypt
 				.compare(req.body.password, user.password)

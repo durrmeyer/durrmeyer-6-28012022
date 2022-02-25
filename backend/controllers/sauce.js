@@ -4,7 +4,7 @@ const fs = require('fs'); //
 //-------------------------------------création d'une nouvelle pubication------------------------------//
 exports.createSauce = (req, res) => {
 	const sauceObjet = JSON.parse(req.body.sauce);
-
+console.log(sauceObjet);
 	const sauce = new Sauce({
 		...sauceObjet,
 		imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
@@ -106,7 +106,7 @@ exports.likeUser = (req, res) => {
 					.then(() => {
 						res.status(200).json({ message: 'Dislike supprimé !' });
 					})
-					.catch((error) => res.status(400).json({ error }));
+					.catch((error) => res.status(400).json({ message:error }));
 			}
 		});
 	}
