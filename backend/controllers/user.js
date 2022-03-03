@@ -14,7 +14,7 @@ exports.signup = (req, res) => {
 			user
 				.save()
 				.then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-				.catch((error) => res.status(400).json({ error }));
+				.catch((error) => res.status(400).json({ message: error }));
 		})
 		.catch((error) => res.status(500).json({ error }));
 };
@@ -38,7 +38,7 @@ exports.login = (req, res) => {
 								userId: user._id
 							},
 							'RANDOM_TOKEN_SECRET',
-							{ expiresIn: '24h' }
+							{ expiresIn: '2h' }
 						)
 					});
 				})

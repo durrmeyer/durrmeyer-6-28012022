@@ -1,17 +1,18 @@
 const express = require('express');
-
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const helmet = require('helmet');
 
 const userRoutes = require('./routes/User');
 const sauceRoutes = require('./routes/sauce');
 
 const path = require('path');
+const res = require('express/lib/response');
 
 require('dotenv').config('/.env');
-console.log(process.env);
 
 const uri = process.env.ATLAS_URI;
+
 mongoose
 	.connect(uri, {
 		useNewUrlParser: true,
@@ -35,6 +36,7 @@ app.use((req, res, next) => {
 });
 
 app.use(express.json());
+app.use(helmet());
 
 app.use('/api/auth', userRoutes);
 app.use('/api/sauces', sauceRoutes);

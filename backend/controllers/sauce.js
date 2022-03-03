@@ -1,15 +1,15 @@
 const Sauce = require('../models/sauce');
 const fs = require('fs'); //
 
-//-------------------------------------création d'une nouvelle pubication------------------------------//
+//-------------------------------------création d'une nouvelle publication------------------------------//
 exports.createSauce = (req, res) => {
 	const sauceObjet = JSON.parse(req.body.sauce);
-console.log(sauceObjet);
+	console.log(sauceObjet, 'ici je ne trouve pas la solution');
 	const sauce = new Sauce({
 		...sauceObjet,
 		imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
 	});
-	console.log(sauce);
+	console.log(sauce, 'est-ce passé');
 
 	sauce
 		.save()
@@ -19,7 +19,7 @@ console.log(sauceObjet);
 
 // ----------------------------------modification de la publication----------------------------------//
 exports.modifySauce = (req, res) => {
-	console.log(req);
+	console.log(req, "que ce passt'il avec celui-ci ensuite");
 	const sauceObjet = req.file
 		? {
 				...JSON.parse(req.body.sauce),
@@ -50,7 +50,7 @@ exports.deleteSauce = (req, res) => {
 			});
 			console.log(Sauce.deleteOne);
 		})
-		.catch((error) => res.status(500).json({ message: error }));
+		.catch((error) => res.status(500).json({ message: 'vous ne pouvez pas le supprimer' }));
 };
 
 exports.getAllSauces = (req, res) => {
@@ -79,13 +79,13 @@ exports.likeUser = (req, res) => {
 
 		Sauce.updateOne({ _id: sauceId }, { $inc: { likes: +1 }, $push: { usersLiked: userId } })
 			.then(() => res.status(200).json({ message: 'Like ajouté !' }))
-			.catch((error) => res.status(400).json({ error }));
+			.catch((error) => res.status(400).json({ message: error }));
 	} else if (like === -1) {
 		//l'utilisateur n'aime pas une sauce//
 		// On ajoute 1 dislike et on l'envoie dans le tableau "usersDisliked"
 		Sauce.updateOne({ _id: sauceId }, { $inc: { dislikes: +1 }, $push: { usersDisliked: userId } })
 			.then(() => res.status(200).json({ message: 'Dislike ajouté !' }))
-			.catch((error) => res.status(400).json({ error }));
+			.catch((error) => res.status(400).json({ message: error }));
 	} else if (like === 0) {
 		// Si like === 0 l'utilisateur supprime son vote
 		Sauce.findOne({ _id: sauceId }).then((sauce) => {
@@ -97,7 +97,7 @@ exports.likeUser = (req, res) => {
 					.then(() => {
 						res.status(200).json({ message: 'Like supprimé !' });
 					})
-					.catch((error) => res.status(400).json({ error }));
+					.catch((error) => res.status(400).json({ message: error }));
 			} else if (sauce.usersDisliked.includes(userId)) {
 				// Si le tableau "userDisliked" contient l'ID de l'utilisateur
 				// On enlève un dislike du tableau "userDisliked"
@@ -106,7 +106,7 @@ exports.likeUser = (req, res) => {
 					.then(() => {
 						res.status(200).json({ message: 'Dislike supprimé !' });
 					})
-					.catch((error) => res.status(400).json({ message:error }));
+					.catch((error) => res.status(400).json({ message: error }));
 			}
 		});
 	}
