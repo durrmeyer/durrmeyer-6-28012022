@@ -1,17 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config('/.env');
 const helmet = require('helmet');
 
 const userRoutes = require('./routes/User');
 const sauceRoutes = require('./routes/sauce');
 
 const path = require('path');
-const res = require('express/lib/response');
-
-require('dotenv').config('/.env');
 
 const uri = process.env.ATLAS_URI;
+console.log(uri);
 
 mongoose
 	.connect(uri, {
