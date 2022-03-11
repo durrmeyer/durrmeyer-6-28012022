@@ -1,5 +1,5 @@
 const Sauce = require('../models/sauce');
-const fs = require('fs'); //
+const fs = require('fs'); //package qui permet de modifier ou supprimer des fichiers
 
 //-------------------------------------création d'une nouvelle pubication------------------------------//
 exports.createSauce = (req, res) => {
@@ -9,7 +9,6 @@ exports.createSauce = (req, res) => {
 		...sauceObjet,
 		imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
 	});
-	console.log(sauce);
 
 	sauce
 		.save()
@@ -19,7 +18,6 @@ exports.createSauce = (req, res) => {
 
 // ----------------------------------modification de la publication----------------------------------//
 exports.modifySauce = (req, res) => {
-	console.log(req);
 	const sauceObjet = req.file
 		? {
 				...JSON.parse(req.body.sauce),
@@ -37,6 +35,7 @@ exports.modifySauce = (req, res) => {
 		.then(() => res.status(200).json({ message: 'Objet modifié !' }))
 		.catch((error) => res.status(400).json({ message: error }));
 };
+
 // ----------------------------------suppression de la publication----------------------------------//
 exports.deleteSauce = (req, res) => {
 	//récupération dans la base de donnée
@@ -48,7 +47,6 @@ exports.deleteSauce = (req, res) => {
 					.then(() => res.status(200).json({ message: 'Objet supprimé!' }))
 					.catch((error) => res.status(400).json({ message: error }));
 			});
-			console.log(Sauce.deleteOne);
 		})
 		.catch((error) => res.status(500).json({ message: error }));
 };
