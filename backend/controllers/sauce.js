@@ -4,7 +4,6 @@ const fs = require('fs'); //package qui permet de modifier ou supprimer des fich
 //-------------------------------------création d'une nouvelle pubication------------------------------//
 exports.createSauce = (req, res) => {
 	const sauceObjet = JSON.parse(req.body.sauce);
-
 	const sauce = new Sauce({
 		...sauceObjet,
 		imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
