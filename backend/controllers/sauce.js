@@ -1,4 +1,5 @@
 const Sauce = require('../models/sauce');
+// Récupération du module 'file system' de Node permettant de gérer ici les téléchargements et modifications d'images
 const fs = require('fs'); //package qui permet de modifier ou supprimer des fichiers
 
 //-------------------------------------création d'une nouvelle pubication------------------------------//
@@ -38,8 +39,11 @@ exports.modifySauce = (req, res) => {
 // ----------------------------------suppression de la publication----------------------------------//
 exports.deleteSauce = (req, res) => {
 	//récupération dans la base de donnée
+
+	//l'id de la sauce doit être le même que le paramètre de requête
 	Sauce.findOne({ _id: req.params.id })
 		.then((sauce) => {
+			//supprime l'ancienne image du server
 			const filename = sauce.imageUrl.split('/images/')[1];
 			fs.unlink(`images/${filename}`, () => {
 				Sauce.deleteOne({ _id: req.params.id })
@@ -50,13 +54,15 @@ exports.deleteSauce = (req, res) => {
 		.catch((error) => res.status(500).json({ message: error }));
 };
 
+// Permet de récuperer toutes les sauces de la base MongoDB
 exports.getAllSauces = (req, res) => {
 	Sauce.find()
 		.then((sauces) => res.status(200).json(sauces))
 		.catch((error) => res.status(400).json({ message: error }));
 };
-
+// Permet de récuperer une sauce de la base MongoDB
 exports.getOneSauce = (req, res) => {
+	// On l'identifie par l'ID
 	Sauce.findOne({ _id: req.params.id })
 		.then((sauce) => res.status(200).json(sauce))
 		.catch((error) => res.status(404).json({ message: error }));

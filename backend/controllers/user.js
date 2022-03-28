@@ -17,9 +17,8 @@ const User = require('../models/user');
                 //  sécurise le mot de passe en le hachant
                 bcrypt.hash(req.body.password, 10)
                 .then(hash => {
-                    // crée une instance du model User, y insert les données et les sauvegardes 
-                    // dans la base de données.
-                    var user = new User({
+                    // crée une instance du model User, y insert les données et les sauvegardes dans la base de données.
+                    const user = new User({
                         email: req.body.email,
                         password: hash
                     });
@@ -55,7 +54,7 @@ const User = require('../models/user');
 		.then(user => {
 			if (!user) {
 				return res.status(401).json({ message: 'aucun compte ne correspond à votre adresse mail !' });
-			}
+			} 
 			bcrypt
 				.compare(req.body.password, user.password)
 				.then(valid => {
@@ -70,14 +69,12 @@ const User = require('../models/user');
 							},
 							'KEY_SECRET',
 							{ expiresIn: '12h' }
-						)
-						
+						)	
 					});
 				})
-				.catch((error) => res.status(500).json({ message: error }));
-			
-				})
-		}
+                .catch(error => res.status(500).json({ error }));
+				});
+        }
 		
 		
 			
