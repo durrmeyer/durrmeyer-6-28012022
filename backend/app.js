@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv').config('/.env');
+require('dotenv').config('/.env');
 
 
 const userRoutes = require('./routes/user');
@@ -24,6 +24,7 @@ const app = express();
 app.use((req, res, next) => {
 	// les ressources peuvent être partager de n'importe quelle origine//
 	res.setHeader('Access-Control-Allow-Origin', '*');
+	//l'autorisation sera donnée quand la vérification sera faite //
 	res.setHeader(
 		'Access-Control-Allow-Headers',
 		'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'

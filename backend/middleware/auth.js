@@ -15,9 +15,9 @@ module.exports = (req, res, next) => {
 		} else {
 			next();
 		}
-	} catch {
+	} catch (error) {
 		res.status(401).json({
-			 message: 'non authentifié !' 
+			 error: 'non authentifié !' 
 		});
 	}
 }
