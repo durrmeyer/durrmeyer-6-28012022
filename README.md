@@ -4,6 +4,8 @@ Cloner le repository
 
 Dans un dossier backend installer:
  node JS
+ Express
+ Mongoose
  puis mettre en route avec npm start
  
 
