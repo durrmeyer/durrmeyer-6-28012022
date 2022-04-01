@@ -42,7 +42,7 @@ exports.signup = (req, res) => {
 			// message d'erreur si la présence de l'utilisateur dans la BDD n'a pu être vérifié
 			.catch((error) => res.status(500).json({ error }));
 	} else {
-		//message d'erreur si l'email est mal formé ou/et si le mot de passe est trop court
+		// si le mot de passe est trop court
 		res.status(401).json({ message: 'mot de passe trop court, il vous faut 8 lettres minimum !' });
 	}
 };
@@ -52,6 +52,7 @@ exports.login = (req, res) => {
 		if (!user) {
 			return res.status(401).json({ message: 'aucun compte ne correspond à votre adresse mail !' });
 		}
+		// bcrypt compare les Hashs
 		bcrypt
 			.compare(req.body.password, user.password)
 			.then((valid) => {
